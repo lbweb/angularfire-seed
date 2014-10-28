@@ -1,0 +1,17 @@
+
+
+<div class="thumbnail" >
+
+                                 <button class="btn btn-primary save-btn"  ng-click="pinIt($index)"
+                                 ng-hide="post.pinned">{{post.pinned}}
+                                  <span class="glyphicon glyphicon-thumbs-up"></span> Pin It
+                                  </button>
+
+                                  <img ng-src="{{ post.images.low_resolution.url }}" alt="A masonry brick"/>
+                       <p>
+                        This is a test  {{testVal}}
+                        {{post.pinned_time | date:'dd-MM HH:mm:ss'}} <br/>
+                        {{post.pinned_time}}
+
+                       </p>
+</div>

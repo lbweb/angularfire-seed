@@ -1,0 +1,38 @@
+<h2>ViewData</h2>
+
+
+<div class="row">
+     <div class="col-md-12">
+
+
+
+
+
+               <div class="grid-holder">
+
+
+                                <div masonry masonry-options="{ 'transitionDuration': '0', 'gutter': '.gutter-sizer' }" >
+
+                                  <div class="gutter-sizer"></div>
+
+
+ <div class="repeat-item col-md-3" ng-repeat="(key, post) in instapile | orderBy: '-pinned_time'">
+
+                                      <insta-directive data=post index="{{$index}}"></insta-directive>
+              </div>
+
+                                    <!-- <div class="masonry-brick repeat-item" ng-repeat="(key, post) in instapile">
+
+
+                                        <img ng-src="{{ post.images.low_resolution.url }}" alt="A masonry brick" >
+                       <p>{{post.caption.text}}</p>
+
+                                    </div> -->
+                                </div>
+
+                    </div>
+
+
+
+    </div>
+</div>

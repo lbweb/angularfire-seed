@@ -1,0 +1,105 @@
+<div class="row">
+<div class="col-md-12">
+<h3>Query Number One</h3>
+</div>
+</div>
+
+
+
+<div class="row">
+<div class="col-md-12">
+<form class="form form-left" role="search" >
+        <div class="form-group">
+          <input type="text" class="form-control" placeholder="Search" ng-model="currentSearchQuery">
+        </div>
+        <button type="submit" class="btn btn-default" ng-click="searchEntered()">Submit</button>
+</form>
+</div>
+</div>
+
+<div class="row">
+ <div class="col-md-12">
+
+             <button class="btn btn-primary"   ng-click="loadPreviousQuery()">Load My Old Spot</button>
+
+            <div class="queryTerms"  ng-show="showLoading" class="pull-left">Running Query on Term: <b> {{ queryTerms }} .... </b></div>
+            <div class="queryResults"  ng-show="showTagResult">Total Posts with terms:<b> {{ queryTerms }}  </b> is {{ queryResults }}
+
+            <button class="btn btn-primary"   ng-click="loadResultsBtnClick()">Show me what you got!</button>
+
+
+
+            </div>
+</div>
+</div>
+
+<div class="row">
+ <div class="col-md-12">
+ <div class="row">
+
+
+<!--     <div deckgrid source="photos" cardTemplate="templates/cardView.html" class="deckgrid"></div>
+ -->
+              <!--   <div ng-repeat="(key, post) in currentInstaObject.currentData" class="col-md-3 ">
+                         <div class="thumbnail">
+
+                                <img ng-src="{{post.images.low_resolution.url}}" alt="...">
+
+                                 <div class="caption">
+                                    <h6>{{post.caption.text}}</h6>
+                                    <p>
+                                        <b>Filter:</b> {{post.filter}}<br/>
+                                        <b>Location:</b> {{post.location}}<br/>
+                                        <b>User:</b> {{post.user.username}}<br/>
+                                        <b>Tags:</b> <ul> <li ng-repeat="(key, tag) in post.tags"> {{tag}}</li> </ul><br/>
+                                    </p>
+                                    <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                  </div>
+
+                     </div>
+                </div> -->
+<!--     <div class="row">
+
+
+                         <div class="thumbnail" ng-repeat="(key, post) in currentInstaObject.currentData" class="col-md-3 ">
+
+                                <img ng-src="{{post.images.low_resolution.url}}" alt="...">
+
+                                 <div class="caption">
+                                    <h6>{{post.caption.text}}</h6>
+                                    <p>
+                                        <b>Filter:</b> {{post.filter}}<br/>
+                                        <b>Location:</b> {{post.location}}<br/>
+                                        <b>User:</b> {{post.user.username}}<br/>
+                                        <b>Tags:</b> <ul> <li ng-repeat="(key, tag) in post.tags"> {{tag}}</li> </ul><br/>
+                                    </p>
+                                    <p><a href="#" class="btn btn-primary" role="button">Button</a> <a href="#" class="btn btn-default" role="button">Button</a></p>
+                                  </div>
+
+                        </div>
+
+</dov> -->
+
+
+
+              <div class="repeat-item col-md-3" ng-repeat="(key, post) in InstaList" >
+                                      <insta-directive data=post index="{{$index}}"></insta-directive>
+              </div>
+
+
+</div>
+</div>
+</div>
+
+<div class="row">
+<div class="col-md-12">
+      <button class="btn-primary" ng-click="loadMorePosts()">Load More</button>
+      <button class="btn-primary" ng-click="saveMySpot()">Save My Spot</button>
+</div>
+
+</div>
+
+
+
+
+

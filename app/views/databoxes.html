@@ -1,0 +1,45 @@
+<h2>Databoxes</h2>
+
+<button class="btn btn-primary" ng-click="showDataBoxModal()">Add New Databox</button>
+
+<div class="loading" ng-hide="isLoaded">Loading ...</div>
+
+<h2>Your Databoxes</h2>
+
+<p>Active Databox: {{activeDataBox.name}}</p>
+
+<table class="table" ng-show="isLoaded">
+  <tr>
+    <th>Name</th>
+    <th>Date Created</th>
+    <th>Last Modified</th>
+    <th>Actions</th>
+    <th></th>
+    <th></th>
+  </tr>
+<tr ng-repeat="(dataId, data) in databoxes">
+  <td>{{ data.name }} </td>
+  <td>{{ data.created | date:'MM/dd/yyyy @ h:mma'}}</td>
+  <td>{{ data.modified | date:'MM/dd/yyyy @ h:mma' }}</td>
+  <td><button ng-click="removeDatabox($index)">Delete</button>
+    <button ng-click="makeActive($index)">Open</button>
+    <span class="badge" ng-show="data.isActive">ACTIVE</span>
+
+
+<!-- <label>Add User:&nbsp;</label>
+<button type="button" class="btn btn-default" ng-model="addUserUid" data-html="1" ng-options="user.uid as user.email for user in userList" bs-select>
+  Action <span class="caret"></span>
+</button>
+
+
+<button ng-click="addDataboxToUser(addUserUid, data)">Add User</button>
+ -->
+
+  </td>
+
+</tr>
+
+
+</table>
+
+
