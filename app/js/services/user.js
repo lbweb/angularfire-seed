@@ -2,7 +2,7 @@
 'use strict';
 
 
-app.factory('User345', function($firebase, FIREBASE_URL, $rootScope, $q) {
+app.factory('User', function($firebase, FIREBASE_URL, $rootScope, $q, simpleLogin) {
 
     var refurl = FIREBASE_URL + 'users/';
     var ref = new Firebase(refurl);
@@ -10,7 +10,63 @@ app.factory('User345', function($firebase, FIREBASE_URL, $rootScope, $q) {
     var list = sync.$asArray();
 
 
+    function saveSpot(maxTag, queryTerms) {
+
+        var deferred = $q.defer();
+
+        simpleLogin.getUser().then(function(user){
+            
+
+        var ref = new Firebase(FIREBASE_URL + '/users/' + user.uid + '/Spots/' + $rootScope.activeDataBox.$id);
+        var obj = $firebase(ref).$asObject();
+       
+        obj.$loaded()
+            .then(function(data) {
+                data.maxTag = maxTag;
+                data.modified = Date.now();
+                data.queryTerms = queryTerms;
+                obj = data;
+                obj.$save().then(function(ref) {
+                    if(ref.name() === obj.$id) { // true
+                    obj.$destroy();
+                    deferred.resolve(ref);
+                    }
+                });
+            });
+
+
+        });
+
+        return deferred.promise;
+    }
+
+
+    function getSpot(maxTag, queryTerms) {
+
+        var deferred = $q.defer();
+
+        simpleLogin.getUser().then(function(user){
+            
+
+        var ref = new Firebase(FIREBASE_URL + '/users/' + user.uid + '/Spots/' + $rootScope.activeDataBox.$id);
+        var obj = $firebase(ref).$asObject();
+       
+        obj.$loaded()
+            .then(function(data) {                    
+                    deferred.resolve(data);
+            });
+           
+        });
+
+        return deferred.promise;
+    }
+
+
+
     var User = {
+        getPreviousQuery: function() {
+            return getSpot(); 
+        },
         createUser: function(userObj) {
             var deferred = $q.defer();
 
@@ -27,6 +83,9 @@ app.factory('User345', function($firebase, FIREBASE_URL, $rootScope, $q) {
                 return list;
             });
             return fullList;
+        },
+        saveMySpot: function(maxTag, queryTerms) {
+            return saveSpot(maxTag, queryTerms);
         }
     };
 

@@ -12,7 +12,7 @@
         <div class="form-group">
           <input type="text" class="form-control" placeholder="Search" ng-model="currentSearchQuery">
         </div>
-        <button type="submit" class="btn btn-default" ng-click="searchEntered()">Submit</button>
+        <button type="submit" class="btn btn-default" ng-click="searchEntered()">Submit 234</button>
 </form>
 </div>
 </div>
@@ -20,12 +20,12 @@
 <div class="row">
  <div class="col-md-12">
 
-             <button class="btn btn-primary"   ng-click="loadPreviousQuery()">Load My Old Spot 567</button>
+             <button class="btn btn-primary"   ng-click="loadPreviousQuery()">Load My Old Spot 234</button>
 
             <div class="queryTerms"  ng-show="showLoading" class="pull-left">Running Query on Term: <b> {{ queryTerms }} .... </b></div>
             <div class="queryResults"  ng-show="showTagResult">Total Posts with terms:<b> {{ queryTerms }}  </b> is {{ queryResults }}
 
-            <button class="btn btn-primary"   ng-click="loadResultsBtnClick()">Show me what you got!</button>
+            <button class="btn btn-primary"   ng-click="loadResultsBtnClick()">Show me what you got! </button>
 
 
 
@@ -83,8 +83,8 @@
 
 
               <div class="repeat-item col-md-3" ng-repeat="(key, post) in InstaList" >
-                            
-                                      <insta-directive data=post index="{{$index}}"></insta-directive>
+                              <div class="asd">{{post}}</div>
+                                   <!--    <insta-directive data=post index="{{$index}}"></insta-directive> -->
               </div>
 
 

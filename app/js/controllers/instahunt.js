@@ -10,7 +10,7 @@
  * Controller of the instaViewApp
  */
 
-app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootScope, tempInsta, Databox) {
+app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootScope, tempInsta, User) {
 
 
     $scope.queryTerms = tempInsta.queryterms;
@@ -20,7 +20,6 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootSco
     $scope.showLoading = false;
     $scope.showTagResult = false;
     var InstaPileList = tempInsta.instaPileList;
-    var nextMaxTag;
     var currentMinTag;
 
     var showTagLoading = function() {
@@ -35,11 +34,13 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootSco
                 tempInsta.initalized = true;
                 tempInsta.instaPileList = Instapile.list();
                 InstaPileList = Instapile.list();
-                console.log(InstaPileList);
                 //WATCH FOR FURTHER CHANGES on InstaPile Object
 
                 Instapile.list().$watch(function(event) {
                     //get the key of the changed object
+  
+
+
                     var changedObj = Instapile.get(event.key);
 
                     //console.log(changedObj);
@@ -72,16 +73,12 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootSco
 
     var runInstaQuery = function(queryTerms, max_id) {
 
-        console.log(queryTerms);
 
         instaAPI.getTagQuery(queryTerms, max_id).success(function(InstaObject) {
 
-            nextMaxTag = InstaObject.pagination.next_max_tag_id;
-            currentMinTag = InstaObject.pagination.min_tag_id;
+            tempInsta.nextMaxTag = InstaObject.pagination.next_max_tag_id;
+            tempInsta.currentMinTag = InstaObject.pagination.min_tag_id;
 
-            console.log(nextMaxTag);
-            console.log(currentMinTag);
-            console.log(InstaObject);
 
             angular.forEach(InstaObject.data, function(value, key) {
                 angular.forEach(InstaPileList, function(instaValue, key) {
@@ -104,24 +101,52 @@ app.controller('InstaCtrl', function($scope, instaAPI, $log, Instapile, $rootSco
             });
     };
 
+    $scope.clearSheet = function() {
+        console.log('clearSheet');
+        tempInsta.instaPileList.length = 0;
+        $scope.InstaList.length = 0;
+
+        console.log( $scope.InstaList );
+        tempInsta.queryterms = '';
+        tempInsta.currentSearchQuery = '';
+        tempInsta.counter =  0;
+        tempInsta.initalized = false;
+        tempInsta.nextMaxTag = 0;
+        
+        $scope.queryTerms = tempInsta.queryterms;
+        $scope.InstaList = tempInsta.instaPosts;
+        $scope.currentSearchQuery = tempInsta.currentSearchQuery;
+
+    };
 
     $scope.loadResultsBtnClick = function() {
         runInstaQuery($scope.queryTerms);
     };
 
     $scope.loadPreviousQuery = function() {
-        nextMaxTag = $rootScope.activeDataBox.maxTag;
-        $scope.queryTerms = $rootScope.activeDataBox.queryTerms;
-        runInstaQuery($rootScope.activeDataBox.queryTerms, $rootScope.activeDataBox.maxTag);
+
+                        $scope.clearSheet();
+
+        User.getPreviousQuery().then(function(data){
+                
+
+                tempInsta.currentSearchQuery = data.queryTerms;
+                tempInsta.nextMaxTag = data.maxTag;
+                $scope.queryTerms = tempInsta.queryterms;
+                $scope.currentSearchQuery = tempInsta.currentSearchQuery;
+                runInstaQuery(tempInsta.currentSearchQuery, tempInsta.nextMaxTag);
+
+        })
+        
     };
 
     $scope.loadMorePosts = function() {
-        runInstaQuery($scope.queryTerms, nextMaxTag);
+        runInstaQuery(tempInsta.currentSearchQuery, tempInsta.nextMaxTag);
     };
 
     $scope.saveMySpot = function() {
 
-        Databox.saveMySpot(currentMinTag, $scope.queryTerms).then(function() {
+        User.saveMySpot(tempInsta.currentMinTag, tempInsta.currentSearchQuery).then(function() {
             console.log('this has been saved');
         });
         //User.saveMySpot($rootScope.activeDataBox, nextMaxTag);
